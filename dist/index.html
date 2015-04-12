@@ -22,26 +22,11 @@
 
   <script>
     $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
-      }
       window.swaggerUi = new SwaggerUi({
-        url: url,
+        url: "https://api_dev.ibercheck.net/swagger.json",
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
-          if(typeof initOAuth == "function") {
-            /*
-            initOAuth({
-              clientId: "your-client-id",
-              realm: "your-realms",
-              appName: "your-app-name"
-            });
-            */
-          }
           $('pre code').each(function(i, e) {
             hljs.highlightBlock(e)
           });
@@ -49,28 +34,22 @@
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
-        docExpansion: "none",
-        sorter : "alpha"
+        docExpansion: "list",
+        sorter : "alpha",
+        validatorUrl: null
       });
 
       function addApiKeyAuthorization() {
         var key = encodeURIComponent($('#input_apiKey')[0].value);
         log("key: " + key);
         if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
+            var accessTokenAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
+            window.swaggerUi.api.clientAuthorizations.add("ibercheckAccessCode", accessTokenAuth);
             log("added key " + key);
         }
       }
 
       $('#input_apiKey').change(addApiKeyAuthorization);
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
-        addApiKeyAuthorization();
-      */
 
       window.swaggerUi.load();
 
@@ -89,13 +68,61 @@
     <a id="logo" href="http://swagger.io">swagger</a>
     <form id='api_selector'>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+      <div class='input'><input placeholder="access_token" id="input_apiKey" name="apiKey" type="text"/></div>
       <div class='input'><a id="explore" href="#">Explore</a></div>
     </form>
   </div>
 </div>
 
 <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
+<div class="swagger-ui-wrap">
+  <div class="info">
+    <div class="info_title">How to start</div>
+    <ol style="list-style-type: decimal">
+      <li>Exchange your partner secret with an OAuth2 access_token <code>/oauth</code></li>
+      <li>Now use the access_token returned and fill the top bar <i>access_token</i> form field</li>
+      <li>You are ready to play your experiments</li>
+    </ol>
+    <div class="info_title">Do your first report request</div>
+    Reports are asynchronous transactions. This means it's needed register a request and then via webhooks you will keep
+    posted about the progress.
+    <ol style="list-style-type: decimal">
+      <li>Register a new user performing a POST operation over <code>/user</code> endpoint</li>
+      <li>
+        Next register a new sale for any product present in your product catalog.
+        This sale will be linked into the user account and will appear in his/her dashboard.
+        Send a POST message to the link "sale" present into the user object, usually <code>/user/{user_id}/sale</code>
+      </li>
+      <li>
+        Now the user has enough credits in his/her inventory for create a report request.
+        Send a POST message to the link "report-request" present in the <i>sale</i> object created before, usually
+        <code>/sale/{sale_id}/report-request</code>
+      </li>
+      <li>
+        If your report request was a "check_a_tercero" you have finish. We will notify you with the final result.
+        If you created an "autocheck" then we need more data for proper user identification.<br>
+        Please fill the user's name, surname, celular phone and national ID of the user with PATCH operation over the
+        <i>user</i> object self link, usually <code>/user/{user_id}</code>
+      </li>
+      <li>
+        We need a proof of the user identity too. You need to upload a photo of his/her nationalId.
+        You can do it in the "authorization_document" link present in the <i>report-request</i> object, usually
+        <code>/report-request/{report_request_id}/authorize/document</code>
+      </li>
+      <li>
+        Finally complete the authentication process sending an empty POST message to the <i>authorization</i> link
+        present in the report request object, usually <code>/report-request/{report_request_id}/authorize/</code>
+      </li>
+      <li>
+        We have completed the authentication step. Now we need the user authorization for check his personal data
+        according to the Spanish protection data laws.<br>
+        When you performed the last authorization step then you have a new link in your report request object called
+        <i>authorization_online_sign</i>. You have to send this link to the user's browser so he/she could complete the
+        process.
+      </li>
+    </ol>
+  </div>
+</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
