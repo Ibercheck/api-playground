@@ -83,41 +83,42 @@
       <li>You are ready to play your experiments</li>
     </ol>
     <div class="info_title">Do your first report request</div>
-    Reports are asynchronous transactions. This means it's needed register a request and then via webhooks you will keep
-    posted about the progress.
+    Reports are asynchronous transactions. This means it's necessary to register a request. After registering your
+    request you will be posted about the progress via webhooks.
     <ol style="list-style-type: decimal">
       <li>Register a new user performing a POST operation over <code>/user</code> endpoint</li>
       <li>
         Next register a new sale for any product present in your product catalog.
-        This sale will be linked into the user account and will appear in his/her dashboard.
+        This sale will be linked to the user account and will appear in his/her dashboard.
         Send a POST message to the link "sale" present into the user object, usually <code>/user/{user_id}/sale</code>
       </li>
       <li>
-        Now the user has enough credits in his/her inventory for create a report request.
+        Now the user has credits in his/her inventory for creating a report request.
         Send a POST message to the link "report-request" present in the <i>sale</i> object created before, usually
         <code>/sale/{sale_id}/report-request</code>
       </li>
       <li>
-        If your report request was a "check_a_tercero" you have finish. We will notify you with the final result.
+        If your report request was a "check_a_tercero" you are done. We will notify you with the final result.
         If you created an "autocheck" then we need more data for proper user identification.<br>
-        Please fill the user's name, surname, celular phone and national ID of the user with PATCH operation over the
+        Please fill the user's name, surname, mobile phone and national ID of the user with PATCH operation over the
         <i>user</i> object self link, usually <code>/user/{user_id}</code>
       </li>
       <li>
-        We need a proof of the user identity too. You need to upload a photo of his/her nationalId.
-        You can do it in the "authorization_document" link present in the <i>report-request</i> object, usually
+        We need a proof of the user identity.
+        You have to upload a photo of his/her current, not expired, national Id card.
+        You can do it through the "authorization_document" link present in the <i>report-request</i> object, usually
         <code>/report-request/{report_request_id}/authorize/document</code>
       </li>
       <li>
-        Finally complete the authentication process sending an empty POST message to the <i>authorization</i> link
+        Finally, complete the authentication process sending an empty POST message to the <i>authorization</i> link
         present in the report request object, usually <code>/report-request/{report_request_id}/authorize/</code>
       </li>
       <li>
-        We have completed the authentication step. Now we need the user authorization for check his personal data
-        according to the Spanish protection data laws.<br>
-        When you performed the last authorization step then you have a new link in your report request object called
-        <i>authorization_online_sign</i>. You have to send this link to the user's browser so he/she could complete the
-        process.
+        Once the authentication step is completed we need to collect the user authorization for checking his/her
+        personal data according to the Spanish protection data laws.<br>
+        A new link in your report request object, called <i>authorization_online_sign</i>, is generated upon completion
+        of the authorization process.
+        You have to send this link to the user's browser so he/she can complete the process.
       </li>
     </ol>
   </div>
