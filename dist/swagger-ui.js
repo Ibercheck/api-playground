@@ -20539,7 +20539,8 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
   events: {
     'click #explore'                : 'showCustom',
     'keyup #input_baseUrl'          : 'showCustomOnKeyup',
-    'keyup #input_apiKey'           : 'showCustomOnKeyup'
+    'keyup #input_apiKey'           : 'showCustomOnKeyup',
+    'change #input_apiKey'          : 'showCustom'
   },
 
   initialize: function(){},
@@ -20556,9 +20557,9 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
     }
 
     this.trigger('update-swagger-ui', {
-      url: $('#input_baseUrl').val(),
-      apiKey: $('#input_apiKey').val()
+      url: $('#input_baseUrl').val()
     });
+    addApiKeyAuthorization();
   },
 
   update: function(url, apiKey, trigger){

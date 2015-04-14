@@ -16,11 +16,27 @@
   <script src='lib/handlebars-2.0.0.js'></script>
   <script src='lib/underscore-min.js'></script>
   <script src='lib/backbone-min.js'></script>
-  <script src='swagger-ui.js'></script>
+  <script src='swagger-ui.min.js'></script>
   <script src='lib/highlight.7.3.pack.js'></script>
   <script src='lib/marked.js'></script>
 
   <script>
+    function log() {
+      if ('console' in window) {
+        console.log.apply(console, arguments);
+      }
+    }
+
+    function addApiKeyAuthorization() {
+      var key = encodeURIComponent($('#input_apiKey').val());
+      log("key: " + key);
+      if (key && key.trim() != "") {
+        var accessTokenAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
+        window.swaggerUi.api.clientAuthorizations.add("ibercheckAccessCode", accessTokenAuth);
+        log("added key " + key);
+      }
+    }
+
     $(function () {
       window.swaggerUi = new SwaggerUi({
         url: "https://api_dev.ibercheck.net/swagger.json",
@@ -39,25 +55,8 @@
         validatorUrl: null
       });
 
-      function addApiKeyAuthorization() {
-        var key = encodeURIComponent($('#input_apiKey')[0].value);
-        log("key: " + key);
-        if(key && key.trim() != "") {
-            var accessTokenAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
-            window.swaggerUi.api.clientAuthorizations.add("ibercheckAccessCode", accessTokenAuth);
-            log("added key " + key);
-        }
-      }
-
-      $('#input_apiKey').change(addApiKeyAuthorization);
-
       window.swaggerUi.load();
 
-      function log() {
-        if ('console' in window) {
-          console.log.apply(console, arguments);
-        }
-      }
   });
   </script>
 </head>
