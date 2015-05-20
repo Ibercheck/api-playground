@@ -1,5 +1,6 @@
 'use strict';
 
+var ghPages = require('gulp-gh-pages');
 var gulp = require('gulp');
 var es = require('event-stream');
 var clean = require('gulp-clean');
@@ -136,6 +137,11 @@ gulp.task('connect', function() {
     root: 'dist',
     livereload: true
   });
+});
+
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+      .pipe(ghPages());
 });
 
 function log(error) {
