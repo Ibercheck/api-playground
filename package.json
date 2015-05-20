@@ -1,17 +1,4 @@
 {
-  "name": "swagger-ui",
-  "author": "Tony Tam <fehguy@gmail.com>",
-  "contributors": [
-    {
-      "name": "Mohsen Azimi",
-      "email": "me@azimi.me"
-    }
-  ],
-  "description": "Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
-  "version": "2.1.5-M2",
-  "homepage": "http://swagger.io",
-  "license": "Apache 2.0",
-  "main": "dist/swagger-ui.js",
   "scripts": {
     "build": "gulp",
     "serve": "gulp serve",
@@ -22,9 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/swagger-api/swagger-ui.git"
+    "url": "https://github.com/Ibercheck/api-playground.git"
   },
-  "readmeFilename": "README.md",
   "devDependencies": {
     "chai": "^2.1.0",
     "cors": "^2.5.3",
