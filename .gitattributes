@@ -1,4 +1,0 @@
-* text eol=lf
-
-dist/images/* -text
-src/main/html/images/* -text
