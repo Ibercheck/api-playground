@@ -1,13 +1,2 @@
-.DS_STORE
-*.ipr
-*.iml
-*.iws
-web/
-lib/*.zip
-version.properties
-.sass-cache
-swagger-ui.sublime-workspace
-.idea
-.project
+dist/
 node_modules/*
-/nbproject/private/
