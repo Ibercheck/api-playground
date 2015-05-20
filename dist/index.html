@@ -35,8 +35,7 @@
     }
 
     function addApiKeyAuthorization() {
-      var key = encodeURIComponent($('#input_apiKey').val());
-      log("key: " + key);
+      var key = encodeURIComponent($('#input_apiKey')[0].value);
       if (key && key.trim() != "") {
         var accessTokenAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
         window.swaggerUi.api.clientAuthorizations.add("ibercheckAccessCode", accessTokenAuth);
@@ -53,6 +52,8 @@
           $('pre code').each(function(i, e) {
             hljs.highlightBlock(e)
           });
+
+          addApiKeyAuthorization();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -61,6 +62,8 @@
         sorter : "alpha",
         validatorUrl: null
       });
+
+      $('#input_apiKey').change(addApiKeyAuthorization);
 
       window.swaggerUi.load();
 
