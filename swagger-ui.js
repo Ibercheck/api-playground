@@ -2,7 +2,7 @@
  *  - 
  * @version v
  * @link 
- * @license 
+ * @license MIT
  */
 (function(){this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
