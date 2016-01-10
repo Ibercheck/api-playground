@@ -26,6 +26,7 @@
   <script src="lib/backbone-min.js"></script>
   <script src="swagger-ui.min.js"></script>
   <script src="lib/highlight.7.3.pack.js"></script>
+  <script src="lib/jsoneditor.min.js"></script>
   <script src="lib/marked.js"></script>
 
   <script>
@@ -60,7 +61,8 @@
           log("Unable to Load SwaggerUI");
         },
         docExpansion: "list",
-        sorter : "alpha",
+        jsonEditor: false,
+        defaultModelRendering: 'schema',
         showRequestHeaders: true,
         validatorUrl: null
       });
@@ -85,12 +87,12 @@
     <form id='api_selector'>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'><input placeholder="access_token" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#">Explore</a></div>
+      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
     </form>
   </div>
 </div>
 
-<div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
+<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
